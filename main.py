@@ -1,6 +1,7 @@
 import logging
 import string
 import pandas as pd
+import uvicorn
 from starlette import status
 import nltk
 from fastapi import FastAPI, UploadFile, HTTPException
@@ -57,7 +58,7 @@ async def search_in_list_keywords(words: list) -> list[Dictionary]:
     for dictionary in dictionary_list:
         if dictionary.is_run is False:
             continue
-        count_match:int = 0
+        count_match: int = 0
         for word in words:
             if word in dictionary.keywords:
                 count_match += 1
@@ -106,3 +107,7 @@ async def export_file():
 @app.get("/hello/{name}")
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host='0.0.0.0', port=8000, log_level="info")
