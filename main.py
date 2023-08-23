@@ -8,11 +8,20 @@ from fastapi import FastAPI, UploadFile, HTTPException
 from razdel import tokenize
 import pymorphy3
 from nltk.corpus import stopwords
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 
 from Dictionary import Dictionary, dictionary_list
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=['*']
+)
 FILE_NAME = 'Словарь ключевых слов.xlsx'
 HTTP_404_DETAIL = 'для получения информации позвоните по номеру телефона 680-23-76'
 nltk.download('stopwords')
