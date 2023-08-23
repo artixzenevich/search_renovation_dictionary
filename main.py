@@ -6,7 +6,7 @@ from starlette import status
 import nltk
 from fastapi import FastAPI, UploadFile, HTTPException
 from razdel import tokenize
-import pymorphy3
+import pymorphy2
 from nltk.corpus import stopwords
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
@@ -55,7 +55,7 @@ async def load_dictionary():
 async def preprocess(question):
     tokens = list(tokenize(question))
     tokens_list = [word.text for word in tokens]
-    morph = pymorphy3.MorphAnalyzer()
+    morph = pymorphy2.MorphAnalyzer()
     return [morph.normal_forms(word)[0]
             for word in tokens_list
             if (word[0] not in digits and
