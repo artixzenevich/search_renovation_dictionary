@@ -6,7 +6,7 @@ from starlette import status
 import nltk
 from fastapi import FastAPI, UploadFile, HTTPException
 from razdel import tokenize
-import pymorphy2
+import pymorphy3
 from nltk.corpus import stopwords
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
@@ -55,7 +55,7 @@ async def load_dictionary():
 async def preprocess(question):
     tokens = list(tokenize(question))
     tokens_list = [word.text for word in tokens]
-    morph = pymorphy2.MorphAnalyzer()
+    morph = pymorphy3.MorphAnalyzer()
     return [morph.normal_forms(word)[0]
             for word in tokens_list
             if (word[0] not in digits and
@@ -119,7 +119,5 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='0.0.0.0', port=8000, log_level="info", reload=True,
-                ssl_certfile="./cert.pem",
-                ssl_keyfile="./key.pem"
+    uvicorn.run("main:app", host='0.0.0.0', port=80, log_level="info", reload=True
 )
