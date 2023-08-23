@@ -33,14 +33,14 @@ digits = [str(i) for i in range(10)]
 async def startup():
     logging.basicConfig(level=logging.INFO)
     await load_dictionary()
-    logging.info(dictionary_list)
+    # logging.info(dictionary_list)
 
 
 async def load_dictionary():
     df = pd.read_excel(FILE_NAME)
     dictionary_list.clear()
     for index, row in df.iterrows():
-        logging.info(row)
+        # logging.info(row)
         if row['is_run'] is True:
             _price = Dictionary(
                 name=row['name'],
@@ -119,4 +119,4 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='0.0.0.0', port=8000, log_level="info")
+    uvicorn.run("main:app", host='0.0.0.0', port=8000, log_level="info", reload=True)
